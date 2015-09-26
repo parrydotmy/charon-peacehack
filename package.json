@@ -35,8 +35,5 @@
     "express"
   ],
   "license": "MIT",
-  "devDependencies": {
-    "firebase": "^2.3.0",
-    "gulp": "^3.9.0"
-  }
+  "devDependencies": {}
 }
