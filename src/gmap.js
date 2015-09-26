@@ -1,4 +1,5 @@
 import _ from 'underscore'
+import infoDisplay from './infoDisplayer'
 
 let map
 
