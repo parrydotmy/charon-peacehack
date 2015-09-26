@@ -1,7 +1,10 @@
-var map;
-function initMap() {
+let map
+
+window.initMap = function () {
   map = new google.maps.Map(document.getElementById('map-mount'), {
     center: {lat: -34.397, lng: 150.644},
     zoom: 8
   });
 }
+
+window.initMap()
