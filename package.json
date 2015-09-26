@@ -4,11 +4,21 @@
   "description": "A sample Node.js app using Express 4",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "postinstall": "NODE_ENV=production gulp",
+    "start": "NODE_ENV=production server.js"
   },
   "dependencies": {
+    "babelify": "^6.3.0",
+    "browserify": "^11.2.0",
     "ejs": "2.3.3",
-    "express": "4.13.3"
+    "express": "4.13.3",
+    "firebase": "^2.3.0",
+    "gulp": "^3.9.0",
+    "gulp-sourcemaps": "^1.5.2",
+    "gulp-uglify": "^1.4.1",
+    "vinyl-buffer": "^1.0.0",
+    "vinyl-source-stream": "^1.1.0",
+    "watchify": "^3.4.0"
   },
   "engines": {
     "node": "0.12.7"
@@ -22,5 +32,8 @@
     "heroku",
     "express"
   ],
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "gulp": "^3.9.0"
+  }
 }
