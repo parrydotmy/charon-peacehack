@@ -1,5 +1,6 @@
 import dataAPI from './firebase'
 import _ from 'underscore'
+import infoDisplay from './infoDisplay'
 
 window.dataAPI = dataAPI
 
@@ -17,7 +18,11 @@ function renderMarker(dataPoint) {
     position: {lat: dataPoint.lat, lng: dataPoint.long},
     map: map,
     title: dataPoint.text
-  });
+  })
+
+  marker.addListener('click', function() {
+    infoDisplay(dataPoint)
+  })
 }
 
 function renderData(dataList) {
@@ -26,9 +31,8 @@ function renderData(dataList) {
 
 function initialise() {
   initMap()
-  // Grab data
+  // Grab data, render it
   dataAPI.row(renderData)
-  // Add markers to map
 }
 
 $( document ).ready(initialise)
