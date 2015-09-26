@@ -7,7 +7,7 @@ export default (function() {
     var tweetContainer = $("<blockquote>")
                             .append(tweetParagraph)
                             .addClass("twitter-tweet")
-                            .append("- " + tweet.name);
+                            .append("- " + info.name);
     container.html(tweetContainer)
   }
 
