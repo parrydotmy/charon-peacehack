@@ -9,6 +9,12 @@ html, body {
 }
 .map-wrapper {
     padding: 0;
+    outline: 2px solid olive;
+    box-shadow: 2px 2px 10px olive;
+}
+
+.logo {
+    color: olive;
 }
 
 /* Google map stying */

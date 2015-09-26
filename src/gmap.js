@@ -1,5 +1,7 @@
 import _ from 'underscore'
 import infoDisplay from './infoDisplayer'
+import reverseGeocode from './reverseGeocode'
+import officialInfoDisplayer from './officialInfoDisplayer'
 
 let map
 
@@ -20,7 +22,6 @@ function initAutocomplete() {
     searchBox.setBounds(map.getBounds());
   });
 
-  var markers = [];
   // [START region_getplaces]
   // Listen for the event fired when the user selects a prediction and retrieve
   // more details for that place.
@@ -30,12 +31,6 @@ function initAutocomplete() {
     if (places.length == 0) {
       return;
     }
-
-    // Clear out the old markers.
-    markers.forEach(function(marker) {
-      marker.setMap(null);
-    });
-    markers = [];
 
     // For each place, get the icon, name and location.
     var bounds = new google.maps.LatLngBounds();
@@ -47,14 +42,6 @@ function initAutocomplete() {
         anchor: new google.maps.Point(17, 34),
         scaledSize: new google.maps.Size(25, 25)
       };
-
-      // Create a marker for each place.
-      markers.push(new google.maps.Marker({
-        map: map,
-        icon: icon,
-        title: place.name,
-        position: place.geometry.location
-      }));
 
       if (place.geometry.viewport) {
         // Only geocodes have viewport.
@@ -77,6 +64,15 @@ function renderMarker(dataPoint) {
 
   marker.addListener('click', function() {
     infoDisplay.display(dataPoint)
+    reverseGeocode(dataPoint.lat, dataPoint.long)
+      .then((data) => {
+        let country = data[0]['country']
+        let countryCode = data[0]['countryCode']
+        officialInfoDisplayer.display(countryCode, country)
+      })
+      .catch((err) => {
+        officialInfoDisplayer.error()
+      })
   })
 }
 
