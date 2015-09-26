@@ -1,6 +1,6 @@
 import dataAPI from './firebase'
 import _ from 'underscore'
-import infoDisplay from './infoDisplay'
+import infoDisplay from './infoDisplayer'
 
 window.dataAPI = dataAPI
 
@@ -21,7 +21,7 @@ function renderMarker(dataPoint) {
   })
 
   marker.addListener('click', function() {
-    infoDisplay(dataPoint)
+    infoDisplay.display(dataPoint)
   })
 }
 
