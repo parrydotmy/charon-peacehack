@@ -2,9 +2,12 @@ export default (function() {
   var container = $('.tweet-container');
 
   function infoDisplayer(info) {
+    var tweetParagraph = $('<p>')
+      .append(info.text) 
     var tweetContainer = $("<blockquote>")
-                            .append(info.text)
-                            .addClass("twitter-tweet");
+                            .append(tweetParagraph)
+                            .addClass("twitter-tweet")
+                            .append("- " + tweet.name);
     container.html(tweetContainer)
   }
 
