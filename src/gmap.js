@@ -1,8 +1,9 @@
+import _ from 'underscore'
 
-
+let map
 
 function initAutocomplete() {
-  var map = new google.maps.Map(document.getElementById('map-mount'), {
+  map = new google.maps.Map(document.getElementById('map-mount'), {
     center: {lat: -34.397, lng: 150.644},
     zoom: 8,
     mapTypeControl: false
