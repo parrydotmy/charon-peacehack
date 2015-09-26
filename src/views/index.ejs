@@ -13,7 +13,9 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col-md-8 map-wrapper">
-        <div id="map-mount"></div>
+        <input id="pac-input" class="controls" type="text" placeholder="Search Box"></input>
+        <div id="map-mount">
+        </div>
       </div>
       <div class="col-md-4">
         <%- include header.ejs %>
@@ -29,6 +31,6 @@
 <style type="text/css">
 </style>
 
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCNu_EcDT0lIpB5PzSOL9N8qBdPyaPmpl4&"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCNu_EcDT0lIpB5PzSOL9N8qBdPyaPmpl4&libraries=places"></script>
 
 <script src="bundle.js"></script>
