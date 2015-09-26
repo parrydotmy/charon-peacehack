@@ -7,4 +7,4 @@ window.initMap = function () {
   });
 }
 
-window.initMap()
+$( document ).ready(window.initMap)
