@@ -13,9 +13,9 @@ function updateMarkers(data) {
   })
 
   if (_.size(newMarkers) > 0) {
-    console.log("New markers! Re-rendering...")
-    gmap.render(newMarkers)
     allMarkers = _.extend(allMarkers, newMarkers)
+    console.log("New markers! Re-rendering...")
+    gmap.render(allMarkers)
   }
 }
 
