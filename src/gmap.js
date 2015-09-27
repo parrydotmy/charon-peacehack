@@ -3,7 +3,7 @@ import infoDisplay from './infoDisplayer'
 import getCountry from './reverseGeocode'
 import officialInfoDisplayer from './officialInfoDisplayer'
 
-let map, heatmap
+let map, heatmap, mc
 let doHeatmap = true
 
 function initMap() {
@@ -74,6 +74,7 @@ function makeMarker(dataPoint) {
   })
 
   marker.addListener('click', function() {
+    console.log(`Clicked - displaying tweet ${dataPoint.text}`)
     infoDisplay.display(dataPoint)
     getCountry(dataPoint.lat, dataPoint.lng)
       .then((data) => {
@@ -82,6 +83,7 @@ function makeMarker(dataPoint) {
         officialInfoDisplayer.display(countryCode, country)
       })
       .catch((err) => {
+        console.log(err)
         officialInfoDisplayer.error()
       })
   })
@@ -130,7 +132,11 @@ function renderData(dataList) {
     calculator: markerClustererCalculator,
     styles: styles
   }
-  let mc = new MarkerClusterer(map, markers, mcOptions)
+  if (mc) {
+    console.log("Wiping markers to render new ones...")
+    mc.setMap(null);
+  }
+  mc = new MarkerClusterer(map, markers, mcOptions)
 }
 
 function initialise() {

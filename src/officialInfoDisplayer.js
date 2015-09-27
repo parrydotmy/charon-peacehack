@@ -1,13 +1,18 @@
+import dataAPI from './firebase'
+
 let display = function (countryCode, country) {
-  console.log(`Displaying info for country ${countryCode}`)
   let header = `Official guidelines for ${country}:`
-  let text = 'Fetching guidelines...'
   $('#official-information-header').text(header)
-  $('#official-information').text(text)
+  let callback = function (text) {
+    let guideline = text || "Nothing for this country yet."
+    $('#official-information').text(guideline)
+  }
+  dataAPI.getGuildelines(country, callback)
 }
 
 let error = function () {
   let headerMessage = 'No official information for this country.'
+  console.log("Erroring the reverse geocode")
   $('#official-information-header').text(header)
   $('#official-information').text('')
 }
