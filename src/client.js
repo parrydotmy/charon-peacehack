@@ -3,11 +3,21 @@ import gmap from './gmap'
 import _ from 'underscore'
 
 let hashtag = "grapevinesyria"
-let markers
+let allMarkers = {}
 
-function updateMarkers(newMarkers) {
-  markers = _.filter(newMarkers, (obj) => { return !_.findWhere(markers, obj); });
-  gmap.render(markers)
+function updateMarkers(data) {
+  let newMarkers = {}
+  _.each(data, (value, key, list) => {
+    if (!_.has(allMarkers, key)) {
+      newMarkers[key] = value
+    }
+  })
+
+  if (_.size(newMarkers) > 0) {
+    console.log("New markers! Re-rendering...")
+    gmap.render(newMarkers)
+    allMarkers = _.extend(allMarkers, newMarkers)
+  }
 }
 
 function initialise() {
