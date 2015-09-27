@@ -1,13 +1,11 @@
-export default (function() { 
+export default (function() {
   var container = $('.tweet-container');
 
   function infoDisplayer(info) {
-
     $.ajax({
       url: "https://api.twitter.com/1/statuses/oembed.json?url=" + info.url,
       dataType: "jsonp",
       success: function(data){
-        console.log(data);
         container.html(data.html)
       },
       error: function(err, str) {

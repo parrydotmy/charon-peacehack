@@ -62,7 +62,9 @@ function makeMarker(dataPoint) {
   }
 
   if (heat > 0.5) { icon = 'great.png' }
-  else if (heat >= 0) { icon = 'good.png' }
+  if (heat > 0.2) { icon = 'good.png' }
+  else if (heat >= 0) { icon = 'slightlyGood.png' }
+  else if (heat >= -0.2) { icon = 'slightlyBad.png' }
   else if (heat > -0.5) { icon = 'bad.png' }
   else { icon = 'terrible.png' }
 
@@ -75,6 +77,7 @@ function makeMarker(dataPoint) {
 
   marker.addListener('click', function() {
     console.log(`Clicked - displaying tweet ${dataPoint.text}`)
+    console.log(`Rating is ${heat}`)
     infoDisplay.display(dataPoint)
     getCountry(dataPoint.lat, dataPoint.lng)
       .then((data) => {
@@ -98,8 +101,10 @@ function markerClustererCalculator(markers) {
   let heat = _.reduce(markers, totaller, 0) / _.size(markers)
 
   let styleIndex = 3;
-  if (heat > 0.5) { styleIndex = 4 }
-  else if (heat >= 0) { styleIndex = 3 }
+  if (heat > 0.5) { styleIndex = 6 }
+  else if (heat > 0.2) { styleIndex = 5 }
+  else if (heat >= 0) { styleIndex = 4 }
+  else if (heat >= -0.2) { styleIndex = 3 }
   else if (heat > -0.5) { styleIndex = 2 }
   else { styleIndex = 1 }
 
@@ -123,6 +128,8 @@ function renderData(dataList) {
   let styles = [
     createMarkerClustererStyle('terribleGroup.png'),
     createMarkerClustererStyle('badGroup.png'),
+    createMarkerClustererStyle('slightlyBadGroup.png'),
+    createMarkerClustererStyle('slightlyGoodGroup.png'),
     createMarkerClustererStyle('goodGroup.png'),
     createMarkerClustererStyle('greatGroup.png')
   ]
