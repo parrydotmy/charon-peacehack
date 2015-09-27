@@ -11,7 +11,8 @@ export default (function() {
 
   let getGuidelines = function (countryCode, callback) {
     firebase.child("guidelines/").on("value", function(guidelines) {
-      callback(guidelines.val()[countryCode])
+      let data = guidelines.val()
+      callback(data[countryCode])
     })
   }
 
