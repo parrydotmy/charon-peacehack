@@ -6,7 +6,7 @@ import officialInfoDisplayer from './officialInfoDisplayer'
 let map, heatmap
 let doHeatmap = true
 
-function initAutocomplete() {
+function initMap() {
   map = new google.maps.Map(document.getElementById('map-mount'), {
     center: {lat: 47.606163, lng: 7.558594},
     zoom: 3,
@@ -54,30 +54,23 @@ function initAutocomplete() {
   });
 }
 
-function renderMarker(dataPoint) {
+function makeMarker(dataPoint) {
   let icon
   let heat = 0
   if (dataPoint.hasOwnProperty('rating') && dataPoint.hasOwnProperty('intensity')) {
     heat = dataPoint.rating * dataPoint.intensity
   }
-  switch(heat) {
-    case (heat > 0.5):
-      icon = 'great.png'
-      break
-    case (heat > 0):
-      icon = 'good.png'
-      break
-    case (heat > -0.5):
-      icon = 'bad.png'
-      break
-    default:
-      icon = 'terrible.png'
-  }
+
+  if (heat > 0.5) { icon = 'great.png' }
+  else if (heat >= 0) { icon = 'good.png' }
+  else if (heat > -0.5) { icon = 'bad.png' }
+  else { icon = 'terrible.png' }
+
   let marker = new google.maps.Marker({
     position: {lat: dataPoint.lat, lng: dataPoint.lng},
-    map: map,
     title: dataPoint.text,
-    icon: icon
+    icon: icon,
+    heat: heat
   })
 
   marker.addListener('click', function() {
@@ -92,14 +85,56 @@ function renderMarker(dataPoint) {
         officialInfoDisplayer.error()
       })
   })
+
+  return marker
+}
+
+function markerClustererCalculator(markers) {
+  let totaller = (total, marker) => {
+    return total + marker.heat
+  }
+  let heat = _.reduce(markers, totaller, 0) / _.size(markers)
+
+  let styleIndex = 3;
+  if (heat > 0.5) { styleIndex = 4 }
+  else if (heat >= 0) { styleIndex = 3 }
+  else if (heat > -0.5) { styleIndex = 2 }
+  else { styleIndex = 1 }
+
+  return {
+    index: styleIndex,
+    text: _.size(markers)
+  }
+}
+
+function createMarkerClustererStyle(image) {
+  return {
+    height: 56,
+    width: 55,
+    url: image,
+    textColor: 'white'
+  }
 }
 
 function renderData(dataList) {
-  _.each(dataList, renderMarker)
+  let markers = _.map(dataList, makeMarker)
+  let styles = [
+    createMarkerClustererStyle('terribleGroup.png'),
+    createMarkerClustererStyle('badGroup.png'),
+    createMarkerClustererStyle('goodGroup.png'),
+    createMarkerClustererStyle('greatGroup.png')
+  ]
+  let mcOptions = {
+    gridSize: 50,
+    maxZoom: 15,
+    calculator: markerClustererCalculator,
+    styles: styles
+  }
+  let mc = new MarkerClusterer(map, markers, mcOptions)
 }
 
 function initialise() {
-  initAutocomplete()
+  initMap()
 }
 
 export default {
