@@ -2,7 +2,6 @@ import dataAPI from './firebase'
 import gmap from './gmap'
 import _ from 'underscore'
 
-let hashtag = "grapevinesyria"
 let allMarkers = {}
 
 function updateMarkers(data) {
@@ -21,12 +20,16 @@ function updateMarkers(data) {
 }
 
 function initialise() {
+  let ht = $('#hashtaginput').val()
+  if (ht == "") {
+    ht = "#grapevinesyria"
+  }
   gmap.initialise()
-  dataAPI.row(hashtag, updateMarkers)
+  dataAPI.row(ht, updateMarkers)
   window.setInterval(() => {
-    dataAPI.row(hashtag, updateMarkers)
+    let ht = $('#hashtaginput').val()
+    dataAPI.row(ht, updateMarkers)
   }, 5000)
-
 }
 
 $( document ).ready(initialise)

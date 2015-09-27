@@ -1,10 +1,17 @@
 export default (function() {
   let FirebaseAPI = require("firebase");
   let firebase    = new FirebaseAPI("https://burning-inferno-9567.firebaseio.com/");
+  let otherFirebase = new FirebaseAPI("https://grapevine-tst.firebaseio.com/");
 
   let getData = function (hashtag, callback) {
-    // TODO use hashtag
-    firebase.child("tweets/").on("value", function(tweets) {
+    let fb
+    if (hashtag == "#refugeecrisis") {
+      fb = otherFirebase
+    } else {
+      fb = firebase
+    }
+
+    fb.child("tweets/").on("value", function(tweets) {
       callback(tweets.val())
     })
   }
