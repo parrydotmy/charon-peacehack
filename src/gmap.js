@@ -1,6 +1,6 @@
 import _ from 'underscore'
 import infoDisplay from './infoDisplayer'
-import reverseGeocode from './reverseGeocode'
+import getCountry from './reverseGeocode'
 import officialInfoDisplayer from './officialInfoDisplayer'
 
 let map, heatmap
@@ -23,7 +23,6 @@ function initAutocomplete() {
     searchBox.setBounds(map.getBounds());
   });
 
-  // [START region_getplaces]
   // Listen for the event fired when the user selects a prediction and retrieve
   // more details for that place.
   searchBox.addListener('places_changed', function() {
@@ -53,19 +52,33 @@ function initAutocomplete() {
     });
     map.fitBounds(bounds);
   });
-  // [END region_getplaces]
 }
 
 function renderMarker(dataPoint) {
+  let icon
+  switch(heat) {
+    case (heat > 0.5):
+      icon = 'great.png'
+      break
+    case (heat > 0):
+      icon = 'good.png'
+      break
+    case (heat > -0.5):
+      icon = 'bad.png'
+      break
+    default:
+      icon = 'terrible.png'
+  }
   let marker = new google.maps.Marker({
     position: {lat: dataPoint.lat, lng: dataPoint.lng},
     map: map,
-    title: dataPoint.text
+    title: dataPoint.text,
+    icon: icon
   })
 
   marker.addListener('click', function() {
     infoDisplay.display(dataPoint)
-    reverseGeocode(dataPoint.lat, dataPoint.lng)
+    getCountry(dataPoint.lat, dataPoint.lng)
       .then((data) => {
         let country = data[0]['country']
         let countryCode = data[0]['countryCode']
@@ -77,39 +90,8 @@ function renderMarker(dataPoint) {
   })
 }
 
-function renderBlobs(dataList) {
-  _.each(dataList, (dataPoint) => {
-    console.log(dataPoint)
-    let heat = dataPoint.rating * dataPoint.intensity
-    let icon
-    switch(heat) {
-      case (heat > 0.5):
-        icon = 'great.png'
-        break;
-      case (heat > 0):
-        icon = 'good.png'
-        break;
-      case (heat > -0.5):
-        icon = 'bad.png'
-        break;
-      default:
-        icon = 'terrible'
-    }
-    let marker = new google.maps.Marker({
-      position: {lat: dataPoint.lat, lng: dataPoint.lng},
-      map: map,
-      title: dataPoint.text,
-      opacity: heat,
-      icon: icon
-    })
-  })
-};
-
 function renderData(dataList) {
   _.each(dataList, renderMarker)
-  if (doHeatmap) {
-    renderBlobs(dataList)
-  }
 }
 
 function initialise() {
