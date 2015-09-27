@@ -8,8 +8,8 @@ let doHeatmap = true
 
 function initAutocomplete() {
   map = new google.maps.Map(document.getElementById('map-mount'), {
-    center: {lat: -34.397, lng: 150.644},
-    zoom: 8,
+    center: {lat: 47.606163, lng: 7.558594},
+    zoom: 3,
     mapTypeControl: false
   });
 
@@ -56,6 +56,10 @@ function initAutocomplete() {
 
 function renderMarker(dataPoint) {
   let icon
+  let heat = 0
+  if (dataPoint.hasOwnProperty('rating') && dataPoint.hasOwnProperty('intensity')) {
+    heat = dataPoint.rating * dataPoint.intensity
+  }
   switch(heat) {
     case (heat > 0.5):
       icon = 'great.png'

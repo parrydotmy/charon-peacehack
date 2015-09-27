@@ -1,11 +1,11 @@
 import dataAPI from './firebase'
-import _ from 'underscore'
-import infoDisplay from './infoDisplayer'
 import gmap from './gmap'
+
+let hashtag = "grapevinesyria"
 
 function initialise() {
   gmap.initialise()
-  dataAPI.row(gmap.render)
+  dataAPI.row(hashtag, gmap.render)
 }
 
 $( document ).ready(initialise)
