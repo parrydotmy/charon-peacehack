@@ -2,13 +2,18 @@ export default (function() {
   var container = $('.tweet-container');
 
   function infoDisplayer(info) {
-    var tweetParagraph = $('<p>')
-      .append(info.text) 
-    var tweetContainer = $("<blockquote>")
-                            .append(tweetParagraph)
-                            .addClass("twitter-tweet")
-                            .append("- " + info.name);
-    container.html(tweetContainer)
+
+    $.ajax({
+      url: "https://api.twitter.com/1/statuses/oembed.json?url=" + info.url,
+      dataType: "jsonp",
+      success: function(data){
+        console.log(data);
+        container.html(data.html)
+      },
+      error: function(err, str) {
+               console.log(str)
+             }
+    });
   }
 
   return {
