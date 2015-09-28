@@ -22,7 +22,7 @@ function updateMarkers(data) {
 function initialise() {
   let ht = $('#hashtaginput').val()
   if (ht == "") {
-    ht = "#refugeecrisis"
+    ht = "#grapevinesyria"
   }
   gmap.initialise()
   dataAPI.row(ht, updateMarkers)
