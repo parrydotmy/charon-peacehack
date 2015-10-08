@@ -1,4 +1,4 @@
-# charon-peacehack
+# peacehackLDN-grapevine
 
 Part of the #peacehackLDN hackathon entry, 9/2015.
 
