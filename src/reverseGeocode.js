@@ -1,7 +1,7 @@
 let geocoderProvider = 'google'
 let httpAdapter = 'https'
 let extra = {
-    apiKey: 'XXX',
+    apiKey: 'AIzaSyCNu_EcDT0lIpB5PzSOL9N8qBdPyaPmpl4',
     formatter: null
 }
 
