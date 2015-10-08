@@ -1,8 +1,8 @@
 let geocoderProvider = 'google'
 let httpAdapter = 'https'
 let extra = {
-    apiKey: 'AIzaSyCNu_EcDT0lIpB5PzSOL9N8qBdPyaPmpl4', // for Mapquest, OpenCage, Google Premier
-    formatter: null         // 'gpx', 'string', ...
+    apiKey: 'XXX',
+    formatter: null
 }
 
 import nodeGeocoder from 'node-geocoder'

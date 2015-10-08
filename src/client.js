@@ -13,7 +13,7 @@ function updateMarkers(data) {
   })
 
   if (_.size(newMarkers) > 0) {
-    allMarkers = _.extend(allMarkers, newMarkers)
+    allMarkers = data
     console.log("New markers! Re-rendering...")
     gmap.render(allMarkers)
   }
